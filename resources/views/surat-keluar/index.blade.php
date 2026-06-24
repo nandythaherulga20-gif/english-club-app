@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <form method="GET" class="d-flex gap-2">
             <input type="text" name="cari" class="form-control" placeholder="Cari perihal/nomor surat..." value="{{ request('cari') }}">
-            <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+            <button class="btn btn-outline-secondary"><x-icon name="search" /></button>
         </form>
 
         @if (auth()->user()->isAdmin())

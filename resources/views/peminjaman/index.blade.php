@@ -12,7 +12,7 @@
             @endif
         </h6>
         <a href="{{ route('peminjaman.create') }}" class="btn btn-primary">
-            <i class="bi bi-plus-lg"></i> Ajukan Peminjaman
+            <x-icon name="plus-lg" /> Ajukan Peminjaman
         </a>
     </div>
 
