@@ -6,12 +6,12 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <form method="GET" class="d-flex gap-2">
             <input type="text" name="cari" class="form-control" placeholder="Cari perihal/nomor surat..." value="{{ request('cari') }}">
-            <button class="btn btn-outline-secondary"><x-icon name="search" /></i></button>
+            <button class="btn btn-outline-secondary"><x-icon name="search" /></button>
         </form>
 
         @if (auth()->user()->isAdmin())
             <a href="{{ route('surat-masuk.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i> Tambah Surat Masuk
+                <x-icon name="plus-lg" /> Tambah Surat Masuk
             </a>
         @endif
     </div>
@@ -45,12 +45,12 @@
                                 @if (auth()->user()->isAdmin())
                                     <td class="text-nowrap">
                                         <a href="{{ route('surat-masuk.edit', $item) }}" class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
+                                            <x-icon name="pencil" />
                                         </a>
                                         <form method="POST" action="{{ route('surat-masuk.destroy', $item) }}" class="d-inline" onsubmit="return confirm('Hapus data ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                            <button class="btn btn-sm btn-danger"><x-icon name="trash" /></button>
                                         </form>
                                     </td>
                                 @endif

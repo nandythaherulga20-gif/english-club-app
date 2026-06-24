@@ -38,6 +38,11 @@
             border-bottom: 1px solid #e3e6ea;
             padding: 12px 24px;
         }
+        .pagination svg {
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+        }
     </style>
     @yield('extra_css')
 </head>

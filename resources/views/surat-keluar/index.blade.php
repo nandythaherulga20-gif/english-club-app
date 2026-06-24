@@ -11,7 +11,7 @@
 
         @if (auth()->user()->isAdmin())
             <a href="{{ route('surat-keluar.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i> Tambah Surat Keluar
+                <x-icon name="plus-lg" /> Tambah Surat Keluar
             </a>
         @endif
     </div>
@@ -45,12 +45,12 @@
                                 @if (auth()->user()->isAdmin())
                                     <td class="text-nowrap">
                                         <a href="{{ route('surat-keluar.edit', $item) }}" class="btn btn-sm btn-warning">
-                                            <i class="bi bi-pencil"></i>
+                                            <x-icon name="pencil" />
                                         </a>
                                         <form method="POST" action="{{ route('surat-keluar.destroy', $item) }}" class="d-inline" onsubmit="return confirm('Hapus data ini?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
+                                            <button class="btn btn-sm btn-danger"><x-icon name="trash" /></button>
                                         </form>
                                     </td>
                                 @endif
