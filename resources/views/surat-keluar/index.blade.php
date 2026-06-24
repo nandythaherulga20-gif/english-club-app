@@ -66,7 +66,22 @@
         </div>
     </div>
 
-    <div class="mt-3">
-        {{ $items->links() }}
+   <div class="mt-3 d-flex justify-content-between align-items-center">
+    <small class="text-muted">
+        Showing {{ $items->firstItem() }} to {{ $items->lastItem() }} of {{ $items->total() }} results
+    </small>
+    <div class="d-flex gap-2">
+        @if ($items->onFirstPage())
+            <button class="btn btn-outline-secondary btn-sm" disabled>« Previous</button>
+        @else
+            <a href="{{ $items->previousPageUrl() }}" class="btn btn-outline-primary btn-sm">« Previous</a>
+        @endif
+
+        @if ($items->hasMorePages())
+            <a href="{{ $items->nextPageUrl() }}" class="btn btn-primary btn-sm">Next »</a>
+        @else
+            <button class="btn btn-outline-secondary btn-sm" disabled>Next »</button>
+        @endif
     </div>
+</div>
 @endsection
