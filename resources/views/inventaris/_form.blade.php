@@ -1,16 +1,9 @@
 @php $item = $item ?? null; @endphp
 
-<div class="row">
-    <div class="col-md-3 mb-3">
-        <label class="form-label">No Urut</label>
-        <input type="number" name="no_urut" class="form-control" value="{{ old('no_urut', $item->no_urut ?? '') }}" required>
-        @error('no_urut') <small class="text-danger">{{ $message }}</small> @enderror
-    </div>
-    <div class="col-md-9 mb-3">
-        <label class="form-label">Kategori</label>
-        <input type="text" name="kategori" class="form-control" value="{{ old('kategori', $item->kategori ?? '') }}" required>
-        @error('kategori') <small class="text-danger">{{ $message }}</small> @enderror
-    </div>
+<div class="mb-3">
+    <label class="form-label">Kategori</label>
+    <input type="text" name="kategori" class="form-control" value="{{ old('kategori', $item->kategori ?? '') }}" required>
+    @error('kategori') <small class="text-danger">{{ $message }}</small> @enderror
 </div>
 
 <div class="mb-3">

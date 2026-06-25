@@ -1,16 +1,11 @@
 @php $item = $item ?? null; @endphp
 
 <div class="row">
-    <div class="col-md-3 mb-3">
-        <label class="form-label">No Urut</label>
-        <input type="number" name="no_urut" class="form-control" value="{{ old('no_urut', $item->no_urut ?? '') }}" required>
-        @error('no_urut') <small class="text-danger">{{ $message }}</small> @enderror
-    </div>
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
         <label class="form-label">Tanggal Masuk</label>
         <input type="date" name="tanggal_masuk" class="form-control" value="{{ old('tanggal_masuk', $item->tanggal_masuk?->format('Y-m-d') ?? '') }}">
     </div>
-    <div class="col-md-5 mb-3">
+    <div class="col-md-6 mb-3">
         <label class="form-label">Nomor Surat</label>
         <input type="text" name="nomor_surat" class="form-control" value="{{ old('nomor_surat', $item->nomor_surat ?? '') }}" required>
         @error('nomor_surat') <small class="text-danger">{{ $message }}</small> @enderror
