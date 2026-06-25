@@ -35,6 +35,7 @@ class SuratKeluarController extends Controller
         $this->authorizeAdmin();
 
         $validated = $this->validateData($request);
+        $validated['no_urut']    = (SuratKeluar::max('no_urut') ?? 0) + 1;
         $validated['created_by'] = auth()->id();
 
         SuratKeluar::create($validated);
@@ -61,7 +62,13 @@ class SuratKeluarController extends Controller
     public function destroy(SuratKeluar $surat_keluar)
     {
         $this->authorizeAdmin();
+
         $surat_keluar->delete();
+
+        // Resequence no_urut dari 1
+        SuratKeluar::orderBy('id')->each(function ($item, $index) {
+            $item->updateQuietly(['no_urut' => $index + 1]);
+        });
 
         return redirect()->route('surat-keluar.index')->with('success', 'Surat keluar berhasil dihapus.');
     }
@@ -69,17 +76,16 @@ class SuratKeluarController extends Controller
     private function validateData(Request $request): array
     {
         return $request->validate([
-            'no_urut' => ['required', 'integer'],
-            'tanggal_keluar' => ['nullable', 'date'],
-            'nomor_surat' => ['required', 'string', 'max:100'],
-            'tanggal_surat' => ['nullable', 'date'],
-            'kegiatan_teks' => ['nullable', 'string', 'max:180'],
-            'tanggal_kegiatan_mulai' => ['nullable', 'date'],
-            'tanggal_kegiatan_selesai' => ['nullable', 'date'],
-            'perihal' => ['nullable', 'string', 'max:255'],
-            'acara' => ['nullable', 'string', 'max:255'],
-            'instansi_penerima' => ['nullable', 'string', 'max:100'],
-            'keterangan' => ['nullable', 'string', 'max:255'],
+            'tanggal_keluar'          => ['nullable', 'date'],
+            'nomor_surat'             => ['required', 'string', 'max:100'],
+            'tanggal_surat'           => ['nullable', 'date'],
+            'kegiatan_teks'           => ['nullable', 'string', 'max:180'],
+            'tanggal_kegiatan_mulai'  => ['nullable', 'date'],
+            'tanggal_kegiatan_selesai'=> ['nullable', 'date'],
+            'perihal'                 => ['nullable', 'string', 'max:255'],
+            'acara'                   => ['nullable', 'string', 'max:255'],
+            'instansi_penerima'       => ['nullable', 'string', 'max:100'],
+            'keterangan'              => ['nullable', 'string', 'max:255'],
         ]);
     }
 

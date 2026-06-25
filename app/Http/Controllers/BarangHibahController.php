@@ -31,12 +31,12 @@ class BarangHibahController extends Controller
         $this->authorizeAdmin();
 
         $validated = $request->validate([
-            'no_urut' => ['required', 'integer'],
             'nama_barang' => ['required', 'string', 'max:150'],
-            'jumlah' => ['required', 'integer', 'min:0'],
-            'satuan' => ['required', 'string', 'max:30'],
+            'jumlah'      => ['required', 'integer', 'min:0'],
+            'satuan'      => ['required', 'string', 'max:30'],
         ]);
 
+        $validated['no_urut']    = (BarangHibah::max('no_urut') ?? 0) + 1;
         $validated['created_by'] = auth()->id();
 
         BarangHibah::create($validated);
@@ -55,10 +55,9 @@ class BarangHibahController extends Controller
         $this->authorizeAdmin();
 
         $validated = $request->validate([
-            'no_urut' => ['required', 'integer'],
             'nama_barang' => ['required', 'string', 'max:150'],
-            'jumlah' => ['required', 'integer', 'min:0'],
-            'satuan' => ['required', 'string', 'max:30'],
+            'jumlah'      => ['required', 'integer', 'min:0'],
+            'satuan'      => ['required', 'string', 'max:30'],
         ]);
 
         $barang_hibah->update($validated);
@@ -69,7 +68,13 @@ class BarangHibahController extends Controller
     public function destroy(BarangHibah $barang_hibah)
     {
         $this->authorizeAdmin();
+
         $barang_hibah->delete();
+
+        // Resequence no_urut dari 1
+        BarangHibah::orderBy('id')->each(function ($item, $index) {
+            $item->updateQuietly(['no_urut' => $index + 1]);
+        });
 
         return redirect()->route('barang-hibah.index')->with('success', 'Data barang hibah berhasil dihapus.');
     }

@@ -23,7 +23,6 @@ class InventarisBarangController extends Controller
     public function create()
     {
         $this->authorizeAdmin();
-
         return view('inventaris.create');
     }
 
@@ -32,15 +31,15 @@ class InventarisBarangController extends Controller
         $this->authorizeAdmin();
 
         $validated = $request->validate([
-            'no_urut' => ['required', 'integer'],
-            'kategori' => ['required', 'string', 'max:50'],
-            'nama_barang' => ['required', 'string', 'max:150'],
-            'jumlah' => ['required', 'integer', 'min:0'],
-            'satuan' => ['required', 'string', 'max:30'],
-            'kondisi_baik' => ['required', 'integer', 'min:0'],
+            'kategori'      => ['required', 'string', 'max:50'],
+            'nama_barang'   => ['required', 'string', 'max:150'],
+            'jumlah'        => ['required', 'integer', 'min:0'],
+            'satuan'        => ['required', 'string', 'max:30'],
+            'kondisi_baik'  => ['required', 'integer', 'min:0'],
             'kondisi_rusak' => ['required', 'integer', 'min:0'],
         ]);
 
+        $validated['no_urut']    = (InventarisBarang::max('no_urut') ?? 0) + 1;
         $validated['created_by'] = auth()->id();
 
         InventarisBarang::create($validated);
@@ -51,7 +50,6 @@ class InventarisBarangController extends Controller
     public function edit(InventarisBarang $inventaris)
     {
         $this->authorizeAdmin();
-
         return view('inventaris.edit', ['item' => $inventaris]);
     }
 
@@ -60,12 +58,11 @@ class InventarisBarangController extends Controller
         $this->authorizeAdmin();
 
         $validated = $request->validate([
-            'no_urut' => ['required', 'integer'],
-            'kategori' => ['required', 'string', 'max:50'],
-            'nama_barang' => ['required', 'string', 'max:150'],
-            'jumlah' => ['required', 'integer', 'min:0'],
-            'satuan' => ['required', 'string', 'max:30'],
-            'kondisi_baik' => ['required', 'integer', 'min:0'],
+            'kategori'      => ['required', 'string', 'max:50'],
+            'nama_barang'   => ['required', 'string', 'max:150'],
+            'jumlah'        => ['required', 'integer', 'min:0'],
+            'satuan'        => ['required', 'string', 'max:30'],
+            'kondisi_baik'  => ['required', 'integer', 'min:0'],
             'kondisi_rusak' => ['required', 'integer', 'min:0'],
         ]);
 
@@ -79,6 +76,11 @@ class InventarisBarangController extends Controller
         $this->authorizeAdmin();
 
         $inventaris->delete();
+
+        // Resequence no_urut dari 1
+        InventarisBarang::orderBy('id')->each(function ($item, $index) {
+            $item->updateQuietly(['no_urut' => $index + 1]);
+        });
 
         return redirect()->route('inventaris.index')->with('success', 'Data inventaris berhasil dihapus.');
     }
